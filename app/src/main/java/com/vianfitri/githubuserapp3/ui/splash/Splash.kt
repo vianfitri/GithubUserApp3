@@ -11,6 +11,7 @@ class Splash : AppCompatActivity() {
     val activityScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Splash)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
