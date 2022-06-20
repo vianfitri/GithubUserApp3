@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">GithubUserApp3</string>
+    <string name="app_name">GithubUserApp</string>
+    <string name="app_text">GitHub User App</string>
+    <string name="splashlogo">SplashLogo</string>
 </resources>
