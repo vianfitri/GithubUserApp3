@@ -3,7 +3,7 @@ package com.vianfitri.githubuserapp3.ui.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.vianfitri.githubuserapp3.MainActivity
+import com.vianfitri.githubuserapp3.ui.main.MainActivity
 import com.vianfitri.githubuserapp3.R
 import kotlinx.coroutines.*
 

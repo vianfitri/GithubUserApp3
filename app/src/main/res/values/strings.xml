@@ -2,4 +2,6 @@
     <string name="app_name">GithubUserApp</string>
     <string name="app_text">GitHub User App</string>
     <string name="splashlogo">SplashLogo</string>
+    <string name="favorite">Favorite</string>
+    <string name="setting">Setting</string>
 </resources>
