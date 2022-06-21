@@ -21,18 +21,26 @@ class UserAdapter(private val listUser: ArrayList<DetailResponse>) : RecyclerVie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (username, name, avatar, _, _, _, _, _, bio) = listUser[position]
         holder.apply {
-            Glide.with(binding.root)
-                .load(avatar)
-                .into(binding.civAvatar)
-            binding.tvProfileName.text = name
-            binding.tvUsername.text = username
-            binding.tvBio.text = bio
+            with(binding) {
+                Glide.with(root)
+                    .load(avatar)
+                    .into(civAvatar)
+                tvProfileName.text = name
+                tvUsername.text = username
+                tvBio.text = bio
 
-            if (name == "null") { binding.tvProfileName.visibility = View.GONE }
-            else { binding.tvProfileName.visibility = View.VISIBLE }
+                if (name == "null") {
+                    tvProfileName.visibility = View.GONE
+                } else {
+                    tvProfileName.visibility = View.VISIBLE
+                }
 
-            if (bio == "null") { binding.tvBio.visibility = View.GONE }
-            else { binding.tvBio.visibility = View.VISIBLE }
+                if (bio == "null") {
+                    tvBio.visibility = View.GONE
+                } else {
+                    tvBio.visibility = View.VISIBLE
+                }
+            }
         }
     }
 }
