@@ -22,7 +22,7 @@ class UserAdapter(private val listUser: ArrayList<DetailResponse>) : RecyclerVie
         val (username, name, avatar, _, _, _, _, _, bio) = listUser[position]
         holder.apply {
             with(binding) {
-                Glide.with(root)
+                Glide.with(root.context)
                     .load(avatar)
                     .into(civAvatar)
                 tvProfileName.text = name

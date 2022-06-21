@@ -25,12 +25,16 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
         supportActionBar?.title = "Github User's Search"
         adapter = UserAdapter(listData)
 
+        setUpToolbar()
+        recyclerViewConfig()
     }
 
     private fun recyclerViewConfig(){
-        binding.rvUser.layoutManager = LinearLayoutManager(binding.rvUser.context)
-        binding.rvUser.setHasFixedSize(true)
-        binding.rvUser.adapter = adapter
+        with(binding) {
+            rvUser.layoutManager = LinearLayoutManager(rvUser.context)
+            rvUser.setHasFixedSize(true)
+            rvUser.adapter = adapter
+        }
     }
 
     private fun setUpToolbar() {
