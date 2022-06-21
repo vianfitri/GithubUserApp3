@@ -5,10 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
 import com.vianfitri.githubuserapp3.datasource.UsersResponse
 import com.vianfitri.githubuserapp3.networking.ApiConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
