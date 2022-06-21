@@ -8,10 +8,12 @@ import android.view.MenuItem
 import com.vianfitri.githubuserapp3.R
 import com.vianfitri.githubuserapp3.adapter.UserAdapter
 import com.vianfitri.githubuserapp3.databinding.ActivityMainBinding
+import com.vianfitri.githubuserapp3.datasource.DetailResponse
 
 class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var adapter: UserAdapter
+    private var listData = ArrayList<DetailResponse>()
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
         setContentView(binding.root)
 
         supportActionBar?.title = "Github User's Search"
+        adapter = UserAdapter(listData)
 
     }
 
