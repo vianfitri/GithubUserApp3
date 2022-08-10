@@ -4,4 +4,23 @@
     <string name="splashlogo">SplashLogo</string>
     <string name="favorite">Favorite</string>
     <string name="setting">Setting</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="repositories">Repositories</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="value">20</string>
+    <string name="view_profile">view profile</string>
+    <string name="profile_pic">Profile Pic</string>
+    <string name="icon_company">icon company</string>
+    <string name="change_language_settings">Change Language Settings</string>
+    <string name="tab_text_1">Followers</string>
+    <string name="tab_text_2">Following</string>
+    <string name="icon_people">icon_people</string>
+    <string name="icon_repo">icon_repo</string>
+    <string name="icon_location">icon_location</string>
+    <string name="detail_user">Detail User</string>
+    <string name="favorite_button">Favorite Button</string>
+    <string name="no_favorite_user">No Favorite User</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

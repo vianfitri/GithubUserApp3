@@ -3,6 +3,7 @@ package com.vianfitri.githubuserapp3.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
+import com.vianfitri.githubuserapp3.datasource.SearchResponse
 import com.vianfitri.githubuserapp3.datasource.UsersResponse
 import com.vianfitri.githubuserapp3.networking.ApiConfig
 import retrofit2.Call
@@ -12,6 +13,7 @@ import retrofit2.Response
 object UserRepository {
     var tmpUserList: ArrayList<DetailResponse> = ArrayList()
     val detailResponse = MutableLiveData<DetailResponse>()
+    val searchResponse = MutableLiveData<SearchResponse>()
     val usersResponse = MutableLiveData<ArrayList<UsersResponse>>()
     val usersDetail = MutableLiveData<ArrayList<DetailResponse>>()
     val isLoading = MutableLiveData<Boolean>()
@@ -63,6 +65,34 @@ object UserRepository {
                 }
             }
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
+                isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
+    }
+
+    fun getUserBySearch(user: String) {
+        tmpUserList.clear()
+        isLoading.value = true
+        val client = ApiConfig.getApiService().getUserBySearch(user)
+        client.enqueue(object : Callback<SearchResponse> {
+            override fun onResponse(
+                call: Call<SearchResponse>,
+                response: Response<SearchResponse>
+            ) {
+                if (response.isSuccessful) {
+                    searchResponse.value = response.body()
+
+                    for(user in searchResponse.value?.items!!){
+                        getDetailUser(user.login)
+                    }
+                    usersDetail.value = tmpUserList
+                    isLoading.value = false
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }

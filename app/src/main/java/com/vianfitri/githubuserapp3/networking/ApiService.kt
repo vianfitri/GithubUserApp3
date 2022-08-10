@@ -2,6 +2,7 @@ package com.vianfitri.githubuserapp3.networking
 
 import com.vianfitri.githubuserapp3.BuildConfig
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
+import com.vianfitri.githubuserapp3.datasource.SearchResponse
 //import com.vianfitri.githubuserapp3.datasource.SearchResponse
 import com.vianfitri.githubuserapp3.datasource.UsersResponse
 import retrofit2.Call
@@ -20,11 +21,9 @@ interface ApiService {
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
     fun getDetailUser(@Path("username") username: String): Call<DetailResponse>
 
-    /*
     @GET("search/users")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
     fun getUserBySearch(@Query("q") username: String): Call<SearchResponse>
-    */
 
     @GET("users/{username}/followers")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")

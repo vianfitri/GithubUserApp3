@@ -19,7 +19,7 @@ class UserAdapter(private val listUser: ArrayList<DetailResponse>) : RecyclerVie
     override fun getItemCount() = listUser.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (username, name, avatar, _, _, _, _, _, bio) = listUser[position]
+        val (username, avatar, _, _, _, name, _, _, bio) = listUser[position]
         holder.apply {
             with(binding) {
                 Glide.with(root.context)
