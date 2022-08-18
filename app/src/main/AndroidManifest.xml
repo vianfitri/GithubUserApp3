@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubUserApp3">
         <activity
-            android:name=".FavoriteActivity"
+            android:name=".ui.favorite.FavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".ui.detail.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.setting.SettingActivity"

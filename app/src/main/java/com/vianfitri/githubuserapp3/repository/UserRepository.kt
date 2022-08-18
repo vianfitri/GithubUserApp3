@@ -1,6 +1,7 @@
 package com.vianfitri.githubuserapp3.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
 import com.vianfitri.githubuserapp3.datasource.SearchResponse
@@ -12,8 +13,8 @@ import retrofit2.Response
 
 object UserRepository {
     var tmpUserList: ArrayList<DetailResponse> = ArrayList()
-    val detailResponse = MutableLiveData<DetailResponse>()
     val searchResponse = MutableLiveData<SearchResponse>()
+    val detailUser = MutableLiveData<DetailResponse?>()
     val usersResponse = MutableLiveData<ArrayList<UsersResponse>>()
     val usersDetail = MutableLiveData<ArrayList<DetailResponse>>()
     val isLoading = MutableLiveData<Boolean>()
@@ -71,6 +72,29 @@ object UserRepository {
         })
     }
 
+    fun getUserDetail(login: String) {
+        val client = ApiConfig.getApiService().getDetailUser(login)
+        client.enqueue(object : Callback<DetailResponse> {
+            override fun onResponse(
+                call: Call<DetailResponse>,
+                response: Response<DetailResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val srcResponse = response.body()
+                    if (srcResponse != null) {
+                        detailUser.value = srcResponse
+                    }
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
+                isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
+    }
+
     fun getUserBySearch(user: String) {
         tmpUserList.clear()
         isLoading.value = true
@@ -86,7 +110,7 @@ object UserRepository {
                     for(user in searchResponse.value?.items!!){
                         getDetailUser(user.login)
                     }
-                    usersDetail.value = tmpUserList
+
                     isLoading.value = false
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")

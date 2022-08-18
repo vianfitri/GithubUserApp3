@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.datastore.core.DataStore
@@ -18,6 +20,7 @@ import com.vianfitri.githubuserapp3.adapter.UserAdapter
 import com.vianfitri.githubuserapp3.databinding.ActivityMainBinding
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
 import com.vianfitri.githubuserapp3.repository.UserRepository
+import com.vianfitri.githubuserapp3.ui.favorite.FavoriteActivity
 import com.vianfitri.githubuserapp3.ui.setting.SettingActivity
 import com.vianfitri.githubuserapp3.ui.setting.SettingPreferences
 
@@ -61,7 +64,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
                     return true
                 }
 
-                override fun onQueryTextChange(p0: String?): Boolean {
+                override fun onQueryTextChange(query: String?): Boolean {
+                    if(query.isNullOrEmpty()) {
+                        UserRepository.getListUser()
+                    }
                     return false
                 }
             })
@@ -124,6 +130,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
             R.id.btn_setting -> {
                 val setting = Intent(this, SettingActivity::class.java)
                 startActivity(setting)
+                true
+            }
+            R.id.btn_favorite -> {
+                val favorite = Intent(this, FavoriteActivity::class.java)
+                startActivity(favorite)
                 true
             }
             else -> false
