@@ -14,6 +14,11 @@ import com.vianfitri.githubuserapp3.ui.detail.DetailActivity
 class FollowsAdapter: RecyclerView.Adapter<FollowsAdapter.ViewHolder>() {
     private var listUserResponse = ArrayList<DetailResponse>()
 
+    fun addDataToList(items: ArrayList<DetailResponse>) {
+        listUserResponse.clear()
+        listUserResponse.addAll(items)
+    }
+
     class ViewHolder(private var binding: ItemUserBinding) :RecyclerView.ViewHolder(binding.root) {
         fun bind(detailResponse: DetailResponse) {
             with(binding) {
@@ -39,6 +44,8 @@ class FollowsAdapter: RecyclerView.Adapter<FollowsAdapter.ViewHolder>() {
                 }
                 root.setOnClickListener {
                     val intent = Intent(itemView.context, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.EXTRA_USER, detailResponse)
+                    itemView.context.startActivity(intent)
                 }
             }
         }
