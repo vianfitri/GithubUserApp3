@@ -15,7 +15,7 @@ import com.vianfitri.githubuserapp3.datasource.DetailResponse
 import com.vianfitri.githubuserapp3.ui.detail.DetailActivity
 
 class UserAdapter(private val listUser: ArrayList<DetailResponse>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-    class ViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {}
+    class ViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
