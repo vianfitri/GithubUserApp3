@@ -23,4 +23,9 @@ class MainViewModel(private val pref: SettingPreferences) : ViewModel() {
     fun getThemeSettings(): LiveData<Boolean> {
         return pref.getThemeSetting().asLiveData()
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        UserRepository.viewModelJob.cancel()
+    }
 }
