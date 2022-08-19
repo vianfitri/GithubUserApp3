@@ -15,11 +15,11 @@ interface ApiService {
 
     @GET("users")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getUserList(): Call<ArrayList<UsersResponse>>
+    suspend fun getUserList(): Call<ArrayList<UsersResponse>>
 
     @GET("users/{username}")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getDetailUser(@Path("username") username: String): Call<DetailResponse>
+    suspend fun getDetailUser(@Path("username") username: String): Call<DetailResponse>
 
     @GET("search/users")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
@@ -27,11 +27,11 @@ interface ApiService {
 
     @GET("users/{username}/followers")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getFollowersList(@Path("username") username: String): Call<ArrayList<UsersResponse>>
+    suspend fun getFollowersList(@Path("username") username: String): Call<ArrayList<UsersResponse>>
 
     @GET("users/{username}/following")
     @Headers("Authorization: token $API_TOKEN", "UserResponse-Agent: request")
-    fun getFollowingList(@Path("username") username: String): Call<ArrayList<UsersResponse>>
+    suspend fun getFollowingList(@Path("username") username: String): Call<ArrayList<UsersResponse>>
 
     companion object {
         private const val API_TOKEN = BuildConfig.API_TOKEN

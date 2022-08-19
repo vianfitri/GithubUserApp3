@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
+import com.vianfitri.githubuserapp3.networking.ApiConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,6 +36,15 @@ class FollowsViewModel(username: String) : ViewModel() {
     private suspend fun getFollowersList(username: String) {
         coroutineScope.launch {
             _isLoading.value = true
+            var result = ApiConfig.getApiService().getFollowersList(username)
+            try{
+                _isLoading.value = false
+                _followers.postValue(result)
+            }catch (e: Exception){
+                _isLoading.value = false
+                _isDataFailed.value = true
+                Log.e(TAG, "OnFailure: ${e.message.toString()}")
+            }
         }
     }
 
