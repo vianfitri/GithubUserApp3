@@ -16,7 +16,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_TOKEN", '"YOUR_TOKEN_HERE"')
+        buildConfigField("String", "API_TOKEN", '"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"')
         buildConfigField("String", "BASE_URL", '"https://api.github.com/"')
     }
 
@@ -26,6 +26,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

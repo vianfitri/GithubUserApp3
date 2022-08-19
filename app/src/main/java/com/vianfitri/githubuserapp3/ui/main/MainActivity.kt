@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
         setContentView(binding.root)
 
         supportActionBar?.title = "Github User's Search"
+
         adapter = UserAdapter(listData)
 
         setUpToolbar()
@@ -59,14 +60,14 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
                     if (query.isEmpty()) {
                         return true
                     } else {
-                        UserRepository.getUserBySearch(query)
+                        UserRepository.searchUser(query)
                     }
                     return true
                 }
 
                 override fun onQueryTextChange(query: String?): Boolean {
                     if(query.isNullOrEmpty()) {
-                        UserRepository.getListUser()
+                        UserRepository.clearSearch()
                     }
                     return false
                 }
@@ -104,9 +105,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener {
     }
 
     private fun observeProgressBar() {
-        mainViewModel.isLoading.observe(this, {
+        mainViewModel.isLoading.observe(this) {
             showProgressBar(it)
-        })
+        }
     }
 
     private fun showProgressBar(isLoading: Boolean?) {

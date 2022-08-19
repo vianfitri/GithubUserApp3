@@ -17,6 +17,7 @@ class FollowsAdapter: RecyclerView.Adapter<FollowsAdapter.ViewHolder>() {
     fun addDataToList(items: ArrayList<DetailResponse>) {
         listUserResponse.clear()
         listUserResponse.addAll(items)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(private var binding: ItemUserBinding) :RecyclerView.ViewHolder(binding.root) {

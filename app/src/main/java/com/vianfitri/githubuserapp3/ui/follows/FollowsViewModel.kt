@@ -39,7 +39,7 @@ class FollowsViewModel(username: String) : ViewModel() {
             var result = ApiConfig.getApiService().getFollowersList(username)
             try{
                 _isLoading.value = false
-                _followers.postValue(result)
+                //_followers.postValue(result)
             }catch (e: Exception){
                 _isLoading.value = false
                 _isDataFailed.value = true
@@ -51,6 +51,15 @@ class FollowsViewModel(username: String) : ViewModel() {
     private suspend fun getFollowingList(username: String){
         coroutineScope.launch {
             _isLoading.value = true
+            var result = ApiConfig.getApiService().getFollowingList(username)
+            try{
+                _isLoading.value = false
+                //_following.postValue(result)
+            }catch (e: Exception){
+                _isLoading.value = false
+                _isDataFailed.value = true
+                Log.e(TAG, "OnFailure: ${e.message.toString()}")
+            }
         }
     }
 

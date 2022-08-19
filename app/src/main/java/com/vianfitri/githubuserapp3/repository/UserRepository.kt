@@ -1,125 +1,68 @@
 package com.vianfitri.githubuserapp3.repository
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.vianfitri.githubuserapp3.datasource.DetailResponse
-import com.vianfitri.githubuserapp3.datasource.SearchResponse
-import com.vianfitri.githubuserapp3.datasource.UsersResponse
 import com.vianfitri.githubuserapp3.networking.ApiConfig
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 object UserRepository {
-    var tmpUserList: ArrayList<DetailResponse> = ArrayList()
-    val searchResponse = MutableLiveData<SearchResponse>()
-    val detailUser = MutableLiveData<DetailResponse?>()
-    val usersResponse = MutableLiveData<ArrayList<UsersResponse>>()
-    val usersDetail = MutableLiveData<ArrayList<DetailResponse>>()
+    val userSearch = MutableLiveData<ArrayList<DetailResponse>?>()
+    val users = MutableLiveData<ArrayList<DetailResponse>?>()
     val isLoading = MutableLiveData<Boolean>()
+
+    var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
     private const val TAG = "UserRepository"
 
-    fun getListUser() {
-        tmpUserList.clear()
-        isLoading.value = true
-        val client = ApiConfig.getApiService().getUserList()
-        client.enqueue(object : Callback<ArrayList<UsersResponse>> {
-            override fun onResponse(
-                call: Call<ArrayList<UsersResponse>>,
-                response: Response<ArrayList<UsersResponse>>
-            ) {
-                if (response.isSuccessful) {
-                    usersResponse.value = response.body()
-
-                    for(users in usersResponse.value!!){
-                        getDetailUser(users.login)
-                    }
-                    isLoading.value = false
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
+    suspend fun getListUser() {
+        coroutineScope.launch {
+            isLoading.value = true
+            val getUserDeferred = ApiConfig.getApiService().getUserList()
+            try {
+                users.value?.clear()
+                for(user in getUserDeferred) {
+                    val detail = ApiConfig.getApiService().getDetailUser(user.login)
+                    users.value?.add(detail)
                 }
-            }
-            override fun onFailure(call: Call<ArrayList<UsersResponse>>, t: Throwable) {
                 isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
-    }
-
-    fun getDetailUser(login: String) {
-        isLoading.value = true
-        val client = ApiConfig.getApiService().getDetailUser(login)
-        client.enqueue(object : Callback<DetailResponse> {
-            override fun onResponse(
-                call: Call<DetailResponse>,
-                response: Response<DetailResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val srcResponse = response.body()
-                    if (srcResponse != null) {
-                        tmpUserList.add(srcResponse)
-                        usersDetail.value = tmpUserList
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
+            } catch (e: Exception) {
                 isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
+                Log.e(TAG, "onFailure: ${e.message.toString()}")
             }
-        })
-    }
-
-    fun getUserDetail(login: String) {
-        val client = ApiConfig.getApiService().getDetailUser(login)
-        client.enqueue(object : Callback<DetailResponse> {
-            override fun onResponse(
-                call: Call<DetailResponse>,
-                response: Response<DetailResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val srcResponse = response.body()
-                    if (srcResponse != null) {
-                        detailUser.value = srcResponse
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
+        }
     }
 
     fun getUserBySearch(user: String) {
-        tmpUserList.clear()
-        isLoading.value = true
-        val client = ApiConfig.getApiService().getUserBySearch(user)
-        client.enqueue(object : Callback<SearchResponse> {
-            override fun onResponse(
-                call: Call<SearchResponse>,
-                response: Response<SearchResponse>
-            ) {
-                if (response.isSuccessful) {
-                    searchResponse.value = response.body()
-
-                    for(user in searchResponse.value?.items!!){
-                        getDetailUser(user.login)
-                    }
-
-                    isLoading.value = false
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
+        coroutineScope.launch {
+            isLoading.value = true
+            val getUserSearch = ApiConfig.getApiService().getUserBySearch(user)
+            try {
+                users.value?.clear()
+                for(user in getUserSearch.items) {
+                    val detail = ApiConfig.getApiService().getDetailUser(user.login)
+                    users.value?.add(detail)
                 }
-            }
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            } catch (e: Exception) {
+                isLoading.value = false
+                Log.e(TAG, "onFailure: ${e.message.toString()}")
             }
-        })
+        }
+    }
+
+    fun searchUser(user: String){
+        coroutineScope.launch {
+            getUserBySearch(user)
+        }
+    }
+
+    fun clearSearch(){
+        coroutineScope.launch {
+            getListUser()
+        }
     }
 }
